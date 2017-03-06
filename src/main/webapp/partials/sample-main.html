@@ -1,0 +1,56 @@
+
+<div id="blogs-section" class="container-fluid" style= "padding-top: 80px;">
+	<div class="jumbotron">
+		<h1>CMAD Blogs</h1>
+		<br>
+		<span class="label label-success" style="border-radius: 30px; font-size: 20px; font-family: helvetica">Signup with us to unleash your blogging skills</span>
+		<br>
+		<br>
+		<p style="padding-left: 11px; font-size: 20px; font-family: helvetica">Powered by HTML5, Bootstrap and AngularJS</p>
+	</div>
+	<div id="most-liked-blogs-blog-list" class="col-sm-2">
+		<h1><small style="color: #2B85E7">Fav Blogs
+			<span class="glyphicon glyphicon-pencil"></span>
+		</small></h1>
+		<hr style="border-color: lightgrey">
+		<span class="label label-primary" ng-repeat="blogTag in blogs[0].blogTags">
+			{{blogTag}}
+		</span>
+		<br>
+		<span class="label label-primary" ng-repeat="blogTag in blogs[1].blogTags">
+			{{blogTag}}
+		</span>
+		<br>
+		<span class="label label-primary" ng-repeat="blogTag in blogs[2].blogTags">
+			{{blogTag}}
+		</span>
+		<hr style="border-color: lightgrey">
+		<ul style="margin-left: -35px; color: #2B85E7;" id="horizontal-list">
+			<li class="fav-blogs-listing" ng-repeat="blog in blogs">
+				<a href="#">{{blog.blogTitle}}</a>
+			</li>
+		</ul>
+	</div>
+	<div id="blogs-list" class="col-sm-8">
+		<ul class="list-unstyled" id="brief-summary-list">
+			<li class="blogs-listing" ng-repeat="blog in blogs'">
+				<h2><a href="#" style="color: #2B85E7">{{blog.blogTitle}}</a></h2>
+				<h6>
+					<img src="{{blog.blogAuthor.avatarImgSrc}}" style="border-radius: 50%;" width="20" height="20">
+					<cite class="text-muted">&nbsp;Posted by <a href="#">{{blog.blogAuthor.name}}</a>, On {{blog.blogPostedOn}}.
+					</cite>
+				</h6>
+				
+				<h5>
+					<span class="glyphicon glyphicon-tags" style="color: grey"></span> 
+					<span class="label label-primary" ng-repeat="blogTag in blog.blogTags">
+						{{blogTag}}
+					</span>
+				</h5>
+				<p style= "font-size: 13px; padding-top: 3px; color: grey;">{{blog.blogContent | limitTo : 300 : 0}}...</p>
+				<hr style="border-color: lightgrey">
+			</li>
+		</ul>    	
+	</div>
+	<div id="message-section" class="col-sm-2" style="border-radius: 30px;padding-bottom: 20px;"></div>
+</div>

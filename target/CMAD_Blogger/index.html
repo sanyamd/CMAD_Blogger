@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<title>CMAD Blogger</title>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=2">
+<link rel="stylesheet" href="./css/bootstrap.min.css">
+<link rel="stylesheet" href="./css/style.css">
+</head>
+
+<body ng-app="cmadBlog">
+	<!-- Site Header -->
+	<site-header></site-header>
+
+	<!-- Main View -->
+	<ng-view></ng-view>
+
+	<!-- Site Footer -->
+	<site-footer></site-footer>
+
+
+	<!-- Vendor Predefined Scripts -->
+	<script src="./js/vendor/jquery.min.js"></script>
+	<script src="./js/vendor/bootstrap.min.js"></script>
+	<script src="./js/vendor/angular.min.js"></script>
+	<script src="./js/vendor/angular-route.js"></script>
+
+	<!-- Project specific Scripts -->
+	<script src="./js/app.js"></script>
+
+	<!-- Services -->
+	<script src="./js/services/user-service.js"></script>
+	<script src="./js/services/blog-service.js"></script>
+
+	<!-- Controllers -->
+	<script src="./js/controllers/main-page-controller.js"></script>
+	<script src="./js/controllers/login-controller.js"></script>
+	<script src="./js/controllers/register-controller.js"></script>
+	<script src="./js/controllers/new-post-controller.js"></script>
+	<script src="./js/controllers/navbar-controller.js"></script>
+	<script src="./js/controllers/single-page-controller.js"></script>
+	<script src="./js/controllers/search-result-controller.js"></script>
+	<script src="./js/controllers/update-profile-controller.js"></script>
+
+	<!-- Directives -->
+	<script src="./js/directives/site-directives.js"></script>
+
+</body>
+</html>

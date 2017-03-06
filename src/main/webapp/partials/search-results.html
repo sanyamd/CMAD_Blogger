@@ -1,0 +1,26 @@
+
+
+<div id="search-results-section" class="container-fluid" style= "padding-top: 80px;">
+	<h3 style="text-align:center;">Search Results are as follows:</h3>
+	<div id="most-liked-blogs-search-results" class="col-sm-2">
+	</div>
+	<div id="search-results-list" class="col-sm-8">
+		<ul class="list-unstyled" id="brief-summary-list">
+			<li class="search-results-listing" ng-repeat="blog in blogs | orderBy:'blogTitle'">
+				<h1><small><a ng-href="#singlePost/{{blog.blogID}}" style="color: #2B85E7">{{blog.blogTitle}}</a></small></h1>				
+				<h5>
+					<span class="glyphicon glyphicon-tags" style="color: grey"></span> 
+					<span class="label label-primary" ng-repeat="blogTag in blog.blogTags">
+						{{blogTag}}
+					</span>
+				</h5>
+				<p style= "font-size: 13px; padding-top: 3px; color: grey;">{{blog.blogContent | limitTo : 400 : 0}}...
+				<a ng-href="#singlePost/{{blog.blogID}}"> read more &gt; </a>
+				</p>
+				<hr style="border-color: lightgrey">
+			</li>
+			<h1 ng-show="blogs.length == 0"> No Results Found</h1>
+		</ul>    	
+	</div>
+	<div id="message-section" class="col-sm-2" style=" border-radius: 30px;padding-bottom: 20px;"></div>
+</div>

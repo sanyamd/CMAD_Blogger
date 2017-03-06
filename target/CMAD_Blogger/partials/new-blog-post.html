@@ -1,0 +1,41 @@
+
+<div id="new-blog-post-section" class="container-fluid" style= "padding-top: 80px;">
+	<div id="most-liked-blogs-blog-list" class="col-sm-2">
+		<h1><small style="color: #2B85E7">Fav Blogs</small></h1>
+	</div>
+
+	<!-- New Post Section -->
+	<div id="new-blog-post" class="col-sm-5">
+		<h1><small style="color: #337ab7">Create New Post
+			<span class="glyphicon glyphicon-pencil"></span>
+		</small></h1>
+		<form name="post-form" ng-submit="npc.createPost()" role="form" novalidate>
+			<fieldset>
+				<div class="form-group">
+					<label for="blogTitleLbl" style="font-size: 15px; padding-left: 10px;"><strong>Title</strong></label>
+					<input type="text" name="blogTitleText" placeholder="Blog1" id="blogTitle" class="form-control" ng-model="npc.blog.blogTitle" required />
+				</div>
+				<br>
+				<div class="form-group">					
+					<label for="blogTagsLbl" style="font-size: 15px; padding-left: 10px;"><strong>Tags</strong></label>
+					<input type="text" name="blogTagsText" placeholder="Sports, Fitness etc..." id="blogTags" class="form-control" ng-model="tempTags" required />
+				</div>
+				<br>
+				<div class="form-group">						
+					<label for="blogContentLbl" style="font-size: 15px; padding-left: 10px;"><strong>Post Content</strong></label>
+					<textarea class="form-control" style="border-radius: 5px;width: 700; height:200px;" ng-model="npc.blog.blogContent" required></textarea>
+				</div>
+
+				<div class="form-actions">
+				<button type="submit" ng-disabled="form.$invalid || lc.dataLoading" class="btn btn-primary" style="padding-left: 20px;">Submit</button>
+					<img ng-if="lc.dataLoading" src="./img/loading.gif" style="padding-left: 10px; padding-top: 3px; display: inline-block;">
+					<!-- Error label for wrong credentials-->
+					<label for="error" style="font-size: 13px; padding-left: 10px; color: red; text-align: center;">{{loginError}}</label>
+				</div>
+			</fieldset>
+		</form>
+	</div>
+
+	<div id="live-preview-section" class="col-sm-4" style="border-radius: 30px;padding-bottom: 20px;">
+	</div>
+</div>

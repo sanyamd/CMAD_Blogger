@@ -1,0 +1,82 @@
+
+
+<div id="single-blog-section" class="container-fluid" style= "padding-top: 80px;">
+	<div id="most-liked-blogs-single-blog" class="col-sm-2">
+		<h1><small style="color: #2B85E7">Fav Blogs
+			<span class="glyphicon glyphicon-pencil"></span>
+		</small></h1>
+		<hr style="border-color: lightgrey">
+		<ul class="list-unstyled" id="horizontal-list">
+			<li class="fav-blogs-listing" ng-repeat="blog in blogs | orderBy:'blogLikes'">
+				<a ng-href="#singlePost/{{blog.blogID}}">{{blog.blogTitle | limitTo : 20 : 0}}...</a>
+			</li>
+		</ul>
+	</div>
+	<div id="single-blog" class="col-sm-7">
+		<!-- Main Blog Body -->
+		<h1>{{blog.post.blogTitle}}</h1>
+		<h6>
+			<img src="{{blog.post.blogAuthor.avatarImgSrc}}" style="border-radius: 50%;" width="20" height="20">
+			<cite class="text-muted">&nbsp;Posted by <a href="#">{{blog.post.blogAuthor.name}}</a>, On {{blog.post.blogPostedOn}}.
+			</cite>
+		</h6>
+
+		<h5>
+			<span class="glyphicon glyphicon-tags" style="color: grey"></span> 
+			<span class="label label-primary" ng-repeat="blogTag in blog.post.blogTags">
+				{{blogTag}}
+			</span>
+		</h5>
+		<p style= "font-size: 13px; padding-top: 3px; letter-spacing: 1px; font-family: sans-serif; font-size: 14px;">{{blog.post.blogContent}}</p>
+		<br>
+
+		<!-- Live Preview of comments-->
+		<div class="live-preview" ng-show="spc.authenticated">
+			<!-- <blockquote> -->
+				<div class="col-sm-1">
+				<img src="{{spc.user.userInfo.avatarImgSrc}}" class="img-circle" height="40" width="40" alt="Avatar">
+				</div>
+				<div class="col-sm-11">	
+					<h5><a href="#">{{spc.user.userInfo.name}}</a></h5>
+					<p style="font-size: 13px; letter-spacing: 0.5px; margin-bottom: 30px;">{{tempComment}}</p>
+				</div>
+			<!-- </blockquote> -->
+		</div>
+
+
+		<!-- Comments Section -->
+		<div class="write-comment" ng-show="spc.authenticated">
+			<blockquote>
+			<textarea class="form-control" rows="3" placeholder="Leave a Comment..." ng-model="tempComment" style="border-radius: 10px; width:400px; height: 50px;"></textarea>
+			<button type="submit" class="btn btn-success" style="border-radius: 50px; width: auto;margin-top: 10px; margin-bottom: 5px;">Submit</button>
+			</blockquote>
+		</div>
+
+		<!-- Older Comments Section -->
+		<div class="older-comments">
+			<blockquote>
+				<h4><span class="label label-info">{{blog.post.blogComments.length}} Comments:</span></h4><br>
+				<ul class="list-unstyled" id="comments-list">
+					<li class="comments-listing" ng-repeat="blogComment in blog.post.blogComments">
+
+						<div class="col-sm-1">
+							<img src="{{blogComment.avatarImgSrc}}" class="img-circle" height="30" width="30" alt="Avatar">
+						</div>
+						<div class="col-sm-11">
+
+							<h5 style="padding-left: -10px;"><small><a href="#">{{blogComment.commentAuthor}}</a>, On {{blogComment.commentedOn}}</small></h5>
+							<p style="font-size: 13px; letter-spacing: 1px;">{{blogComment.comment}}</p>
+							
+
+						</div>
+
+					</li>
+				</ul>
+			</blockquote>
+		</div>
+
+
+	</div>
+	<div id="message-section" class="col-sm-3" style="/*background-color: #f1f3c3;*/ border-radius: 30px;padding-bottom: 20px;">
+	</div>
+</div>

@@ -1,0 +1,69 @@
+  <!-- Header Code -->
+
+  <div class="container">
+    <nav id = "myHeaderNav" class="navbar navbar-default navbar-fixed-top">
+      <div class="navbar-header">
+        <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#myNavbar">
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+        </button>
+        <a class="navbar-brand" href="#myPage" style="margin-bottom: 3px;">
+          CMAD B<span class="glyphicon glyphicon-leaf" style="color: cyan;"></span>ogger
+        </a>
+      </div>
+      <div id="myNavbar" class="collapse navbar-collapse">
+        <ul class="nav navbar-nav navbar-right" style="margin-top: 4px;padding-right: 20px;">
+          <li><a href="#/">
+          <span class="glyphicon glyphicon-home"></span> HOME</a></li>
+          
+          <li class="dropdown" id="blog-type-list">
+            <a class="dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" href="javascript:void(0)">
+            <span class="glyphicon glyphicon-pencil"></span> BLOGS
+              <span class="caret"></span>
+            </a>
+            <ul class="dropdown-menu" id="blog_types" role="menu">
+              <li><a href="#/searchResults/fitness">SPORTS</a></li>
+              <li><a href="#/searchResults/entertainment">ENTERTAINMENT</a></li>
+              <li><a href="#/searchResults/technology">TECHNOLOGY</a></li> 
+            </ul>
+          </li>
+          
+          <li ng-hide="nc.authenticated">
+            <a href="#signupForm">SIGN UP
+              <span class="glyphicon glyphicon-user"></span>
+            </a>
+          </li>
+          <li ng-hide="nc.authenticated">
+            <a href="#login">LOGIN
+              <span class="glyphicon glyphicon-log-in"></span>
+            </a>
+          </li>
+
+          <li ng-show="nc.authenticated">
+            <a href="#newPost">CREATE POST</a>
+          </li>
+
+          <li class="dropdown" id="user-info-list" ng-show="nc.authenticated">
+            <a class="dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" href="javascript:void(0)">
+            <span class="glyphicon glyphicon-user"></span> Hi {{nc.user.userInfo.name}}
+              <span class="caret"></span>
+            </a>
+            <ul class="dropdown-menu" id="blog_types" role="menu">
+              <li><a href="#updateProfile">UPDATE PROFILE</a></li>
+              <li><a ng-click="nc.logout()">LOGOUT</a></li> 
+            </ul>
+          </li>
+  
+          <li>
+            <form role="search" method="get" class="navbar-form">
+              <input type="text" name="q" class="form-control" ng-model="searchString" placeholder="Search...">
+              <a ng-href="#searchResults/{{searchString}}">
+              <span class="glyphicon glyphicon-search"></span>
+            </a>
+          </li>
+        </ul>
+      </div>
+    </nav>
+
+  </div>

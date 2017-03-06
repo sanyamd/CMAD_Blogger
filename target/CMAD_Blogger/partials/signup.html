@@ -1,0 +1,44 @@
+  <!-- Signup Panel -->
+  <div id="signup-section" class="container-fluid" style= "padding-top: 80px;">
+    <div id="signup-col-sm-4-1" class="col-sm-4" style=""></div>
+    <div id="signup-col-sm-4-2" class="col-sm-4">
+      <h3 style="color: #2B85E7; text-align:center; font-family: 'Bauhaus 93';">SIGNUP</h3>
+      <form name="signup-form" ng-submit="rc.register(form.$valid)" role="form" novalidate>
+        <fieldset>
+          <div class="imgcontainer" style="text-align: center; margin: 14px 0 6px 0;">
+            <i class="glyphicon glyphicon-user" style="color: orange; font-size: 30px; border: 1px; border-radius: 50%; border-color: orange;"></i>
+          </div>
+          <div class="form-group">
+            <label for="username" style="font-size: 13px; padding-left: 10px;">Name</label>
+            <input type="text" name="name" placeholder="Someone" id="name" class="form-control" ng-model="rc.user.name" required />
+          </div>
+          <br>
+          <div class="form-group">
+            <label for="useremail" style="font-size: 13px; padding-left: 10px;">Email</label>
+            <input type="email" name="email" placeholder="someone@domain.com" id="email" class="form-control" ng-model="rc.user.email" required />
+          </div>
+          <br>
+          <div class="form-group">
+            <label for="userpassword" style="font-size: 13px; padding-left: 10px;">Password</label>
+            <input type="password" name="password" placeholder="******" id="password" title="Password needs atleast (6) characters" class="form-control" ng-model="rc.user.password" required />
+          </div>
+          <br>
+          <div class="form-group">
+            <label for="aoi" style="font-size: 13px;padding-left: 10px;">Area Of Interest</label>
+            <select id="area-of-interest" class="form-control" ng-model="rc.user.areaOfInterest">
+              <option>Movies</option>
+              <option>Technology</option>
+              <option>Sports</option>
+            </select>
+          </div>
+          <div class="form-actions">
+            <button type="submit" ng-disabled="form.$invalid || rc.dataLoading" class="btn btn-primary">SignUp</button>
+            <img ng-if="rc.dataLoading" src="./img/loading.gif" style="display: inline-block;">
+            <a href="#/" class="btn btn-link pull-right">Cancel</a>
+          </div>
+        </fieldset>
+
+      </form>
+    </div>
+    <div id="signup-col-sm-4-3" class="col-sm-4"></div>
+  </div>
