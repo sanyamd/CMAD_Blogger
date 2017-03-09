@@ -51,13 +51,13 @@
 					<target>${java.version}</target>
 				</configuration>
 			</plugin>
-			<plugin>
+			<!--plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-war-plugin</artifactId>
 				<configuration>
 					<outputDirectory>/usr/local/tomcat/webapps</outputDirectory>
 				</configuration>
-			</plugin>
+			</plugin-->
 		</plugins>
 	</build>
 </project>
