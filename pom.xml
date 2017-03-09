@@ -55,7 +55,7 @@
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-war-plugin</artifactId>
 				<configuration>
-					<outputDirectory>C:\apache-tomcat-7.0.68\webapps</outputDirectory>
+					<outputDirectory>/usr/local/tomcat/webapps</outputDirectory>
 				</configuration>
 			</plugin>
 		</plugins>
