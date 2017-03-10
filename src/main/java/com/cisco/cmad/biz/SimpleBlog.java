@@ -14,11 +14,15 @@ import com.cisco.cmad.api.BlogException;
 import com.cisco.cmad.api.PostNotFoundException;
 import com.mongodb.MongoClient;
 import com.mongodb.MongoClientURI;
+import com.mongodb.bulk.UpdateRequest;
 import com.mongodb.client.FindIterable;
 import com.mongodb.client.MongoCollection;
 import com.mongodb.client.MongoCursor;
 import com.mongodb.client.MongoDatabase;
 import com.mongodb.client.model.Filters;
+import com.mongodb.client.model.IndexModel;
+import com.mongodb.client.model.Indexes;
+import com.mongodb.client.result.UpdateResult;
 
 public class SimpleBlog implements Blog {
 
@@ -27,7 +31,7 @@ public class SimpleBlog implements Blog {
 	MongoCollection<Document> users;
 
 	public SimpleBlog() {
-		MongoClient mongo = new MongoClient(new MongoClientURI("mongodb://10.142.109.58:27017"));
+		MongoClient mongo = new MongoClient(new MongoClientURI("mongodb://130.211.115.181:27017"));
 		db = mongo.getDatabase("CMAD_Blogger");
 	}
 
@@ -140,8 +144,10 @@ public class SimpleBlog implements Blog {
 	@Override
 	public String addComment(String commentJson, int blogId) throws BlogException {
 		Document comment = Document.parse(commentJson);
-		String blogID = (String) comment.get("blogID");
-
+		String blogID = String.valueOf(blogId);
+		
+		System.out.println("blogId" +blogId);
+		
 		boolean writtenToDb = false;
 		Document result = new Document();
 		result.put("blogID", blogID);
@@ -150,7 +156,10 @@ public class SimpleBlog implements Blog {
 		blogs = db.getCollection("blogs");
 
 		try {
-			blogs.findOneAndUpdate(eq("blogID", blogId), new Document("$push", new Document("blogComments", comment)));
+			System.out.println();
+			
+			blogs.updateOne(eq("blogID", blogId), new Document("$push", new Document("blogComments", comment)));
+//			System.out.println("SimpleBlog.addComment() : doc : "+doc);
 			writtenToDb = true;
 		} catch (Exception e) {
 			writtenToDb = false;
@@ -184,12 +193,18 @@ public class SimpleBlog implements Blog {
 	public List<String> getPosts(String searchString) throws BlogException {
 		blogs = db.getCollection("blogs");
 		List<String> list = new ArrayList<String>();
-//		blogs.find(Filters.text(searchString)).forEach((Document doc) -> list.add(doc.toJson()));
+		blogs.dropIndexes();
+		blogs.createIndex(new Document("$**", "text"));
+//		blogs.createIndex(new Document("blogTitle", "text").append("blogContent", "text").append("blogAuthor", "text")
+//				.append("blogTags", "text").append("blogComments", "text"));
 		FindIterable<Document> findIterable = blogs.find(Filters.text(searchString));
+		System.out.println("SimpleBlog.getPosts() : findIterable : "+findIterable);
 		for (Document doc : findIterable){
+			System.out.println("SimpleBlog.getPosts() : doc : "+doc);
 			list.add(doc.toJson());
 		}
-		 System.out.println(list);
+		 
+//		System.out.println(list);
 
 		return list;
 	}
@@ -203,6 +218,12 @@ public class SimpleBlog implements Blog {
 		result.put("postFound", postFound);
 
 		blogs = db.getCollection("blogs");
+		postFound = findPost(postId, postFound, result);
+		result.put("postFound", postFound);
+		return result.toJson();
+	}
+
+	private boolean findPost(int postId, boolean postFound, Document result) {
 		try {
 			FindIterable<Document> find = blogs.find(eq("blogID", String.valueOf(postId)));
 			if (find != null && find.iterator() != null) {
@@ -219,8 +240,7 @@ public class SimpleBlog implements Blog {
 		} catch (Exception e) {
 			postFound = false;
 		}
-		result.put("postFound", postFound);
-		return result.toJson();
+		return postFound;
 	}
 
 	@Override
@@ -257,11 +277,19 @@ public class SimpleBlog implements Blog {
 		return result.toJson();
 	}
 
-	/*public static void main(String... args) {
+/*	public static void main(String... args) {
 //		System.out.println(randInt(1, 6));;
-//		 new SimpleBlog().getPosts();
+//		 System.out.println(new SimpleBlog().getPosts("after"));
 //		new SimpleBlog().getPosts("technology");
 //		new SimpleBlog().getPost(1);
+		Document comment = new Document();
+		comment.put("commentId", "4");
+		comment.put("comment", "adad");
+		comment.put("commentAuthor", "ad");
+		comment.put("avatarImgSrc", "ad");
+		comment.put("commentedOn", "ad");
+
+		System.out.println(new SimpleBlog().addComment(comment.toJson(), 1));
 	}*/
 
 }
