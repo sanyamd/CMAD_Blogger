@@ -41,7 +41,7 @@
 	</dependencies>
 	<build>
 		<finalName>CMAD_Blogger</finalName>
-		<plugins>
+		<!-- <plugins>
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-compiler-plugin</artifactId>
@@ -51,13 +51,13 @@
 					<target>${java.version}</target>
 				</configuration>
 			</plugin>
-			<!--plugin>
+			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-war-plugin</artifactId>
 				<configuration>
-					<outputDirectory>/usr/local/tomcat/webapps</outputDirectory>
+					<outputDirectory>C:\apache-tomcat-7.0.68\webapps</outputDirectory>
 				</configuration>
-			</plugin-->
-		</plugins>
+			</plugin>
+		</plugins> -->
 	</build>
 </project>
