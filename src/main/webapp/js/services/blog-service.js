@@ -14,29 +14,29 @@
  
         function GetAllPosts() {
             console.log("GetAllPosts");
-            return $http.get('http://localhost:8080/CMAD_Blogger/online/blog/allPosts').then(handleSuccess, handleError);
+            return $http.get('online/blog/allPosts').then(handleSuccess, handleError);
         }
 
         function getAllPostsCount() {
             console.log("getAllPostsCount");
-            return $http.get('http://localhost:8080/CMAD_Blogger/online/blog/allPostsCount').then(handleSuccess, handleError);
+            return $http.get('online/blog/allPostsCount').then(handleSuccess, handleError);
         }
  
         function getPosts(searchStringJson) {
             console.log("getPosts : "+ searchStringJson.searchString);
             var searchString = searchStringJson.searchString;
-            return $http.get('http://localhost:8080/CMAD_Blogger/online/blog/search?searchString='+searchString).then(handleSuccess, handleError);
+            return $http.get('online/blog/search?searchString='+searchString).then(handleSuccess, handleError);
         }
  
         function getPost(blogIdJson) {
             console.log("getPost : "+blogIdJson.postId);
             var blogId = blogIdJson.postId;
-            return $http.get('http://localhost:8080/CMAD_Blogger/online/blog/post/'+blogId).then(handleSuccess, handleError);
+            return $http.get('online/blog/post/'+blogId).then(handleSuccess, handleError);
         }
 
         function createPost(blog) {
             console.log("getPost");
-            return $http.post('http://localhost:8080/CMAD_Blogger/online/blog/addPost', blog).then(handleSuccess, handleError);
+            return $http.post('online/blog/addPost', blog).then(handleSuccess, handleError);
         }
 
         // private functions 

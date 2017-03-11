@@ -15,22 +15,22 @@
  
         function GetUserInfo(userEmail) {
             console.log("GetUserInfo");
-            return $http.get('http://localhost:8080/CMAD_Blogger/online/blog/userInfo/' + userEmail).then(handleSuccess, handleError);
+            return $http.get('online/blog/userInfo/' + userEmail).then(handleSuccess, handleError);
         }
  
         function CreateUser(user) {
             console.log("CreateUser");
-            return $http.post('http://localhost:8080/CMAD_Blogger/online/blog/registerUser', user).then(handleSuccess, handleError);
+            return $http.post('online/blog/registerUser', user).then(handleSuccess, handleError);
         }
  
         function UpdateUser(user) {
             console.log("UpdateUser");
-            return $http.put('http://localhost:8080/CMAD_Blogger/online/blog/updateUserInfo', user).then(handleSuccess, handleError);
+            return $http.put('online/blog/updateUserInfo', user).then(handleSuccess, handleError);
         }
 
         function Login(user) {
             console.log("Login");
-            return $http.post('http://localhost:8080/CMAD_Blogger/online/blog/signIn', user).then(handleSuccess, handleError);
+            return $http.post('online/blog/signIn', user).then(handleSuccess, handleError);
         }
 
         function SetCredentials(response) {
