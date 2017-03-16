@@ -21,11 +21,11 @@
 	</div>
 	<div id="blogs-list" class="col-sm-8">
 		<ul class="list-unstyled" id="brief-summary-list">
-			<li class="blogs-listing" ng-repeat="blog in blogs">
+			<li class="blogs-listing" ng-repeat="blog in blogs | orderBy : '-blog.blogPostedOn'">
 				<h2><a ng-href="#singlePost/{{blog.blogID}}" style="color: #2B85E7">{{blog.blogTitle}}</a></h2>
 				<h6>
 					<img src="{{blog.blogAuthor.avatarImgSrc}}" style="border-radius: 50%;" width="20" height="20">
-					<cite class="text-muted">&nbsp;Posted by <a href="#">{{blog.blogAuthor.name}}</a>, On {{blog.blogPostedOn}}.
+					<cite class="text-muted">&nbsp;Posted by <a href="#">{{blog.blogAuthor.name}}</a>, On {{blog.blogPostedOn | date:"MMM d, y h:mm:ss a"}}.
 					</cite>
 				</h6>
 				
@@ -35,7 +35,7 @@
 						{{blogTag}}
 					</span>
 				</h5>
-				<p style= "font-size: 13px; padding-top: 3px; color: grey;letter-spacing: 1px;">{{blog.blogContent | limitTo : 300 : 0}}...</p>
+				<p style= "font-size: 13px; padding-top: 3px; color: grey;letter-spacing: 0px;">{{blog.blogContent | limitTo : 300 : 0}}...</p>
 				<hr style="border-color: lightgrey">
 			</li>
 		</ul>    	

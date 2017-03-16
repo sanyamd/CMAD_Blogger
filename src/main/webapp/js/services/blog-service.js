@@ -9,6 +9,7 @@
 
         service.createPost = createPost;
         service.getAllPostsCount = getAllPostsCount;
+        service.addComment = addComment;
  
         return service;
  
@@ -37,6 +38,11 @@
         function createPost(blog) {
             console.log("getPost");
             return $http.post('online/blog/addPost', blog).then(handleSuccess, handleError);
+        }
+
+        function addComment(comment, blogID) {
+            console.log("addComment");
+            return $http.post('online/blog/addComment?blogID='+blogID, comment).then(handleSuccess, handleError);
         }
 
         // private functions 

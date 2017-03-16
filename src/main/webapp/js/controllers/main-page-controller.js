@@ -14,9 +14,9 @@
 			console.log('$scope.blogs [i] ID: ' + $scope.blogs[i].blogID);
 		}
 
-		console.log('$scope.blogs [0] ID: ' + $scope.blogs[0].blogID);
+		// console.log('$scope.blogs [0] ID: ' + $scope.blogs[0].blogID);
 
-		console.log('$scope.blogs :  ' + $scope.blogs);
+		// console.log('$scope.blogs :  ' + $scope.blogs);
 
 		$scope.tempComment = '';
 		$scope.tempBlogTitle = '';

@@ -40,7 +40,8 @@
                 console.log("tag 0 : "+tags[0]);
                 console.log("$scope.blogsCount : "+$scope.blogsCount);
                 
-                npc.blog.blogID = $scope.blogsCount+1;
+                npc.blog.blogID = parseInt($scope.blogsCount)+1;
+                console.log(npc.blog.blogID);
                 npc.blog.blogTags = tags;
                 npc.blog.blogLikes = 0;
 

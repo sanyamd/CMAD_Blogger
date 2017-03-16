@@ -7,8 +7,8 @@
 		</small></h1>
 		<hr style="border-color: lightgrey">
 		<ul class="list-unstyled" id="horizontal-list">
-			<li class="fav-blogs-listing" ng-repeat="blog in blogs | orderBy:'blogLikes'">
-				<a ng-href="#singlePost/{{blog.blogID}}">{{blog.blogTitle | limitTo : 20 : 0}}...</a>
+			<li class="fav-blogs-listing" ng-repeat="blog1 in blogs | orderBy:'blogLikes'">
+				<a ng-href="#singlePost/{{blog1.blogID}}">{{blog1.blogTitle | limitTo : 20 : 0}}...</a>
 			</li>
 		</ul>
 	</div>
@@ -17,7 +17,7 @@
 		<h1>{{blog.post.blogTitle}}</h1>
 		<h6>
 			<img src="{{blog.post.blogAuthor.avatarImgSrc}}" style="border-radius: 50%;" width="20" height="20">
-			<cite class="text-muted">&nbsp;Posted by <a href="#">{{blog.post.blogAuthor.name}}</a>, On {{blog.post.blogPostedOn}}.
+			<cite class="text-muted">&nbsp;Posted by <a href="#">{{blog.post.blogAuthor.name}}</a>, On {{blog.post.blogPostedOn | date:"MMM d, y h:mm:ss a"}}.
 			</cite>
 		</h6>
 
@@ -31,25 +31,33 @@
 		<br>
 
 		<!-- Live Preview of comments-->
-		<div class="live-preview" ng-show="spc.authenticated">
-			<!-- <blockquote> -->
+		<!--div class="live-preview" ng-show="spc.authenticated">
+			<blockquote>
 				<div class="col-sm-1">
 				<img src="{{spc.user.userInfo.avatarImgSrc}}" class="img-circle" height="40" width="40" alt="Avatar">
 				</div>
 				<div class="col-sm-11">	
 					<h5><a href="#">{{spc.user.userInfo.name}}</a></h5>
-					<p style="font-size: 13px; letter-spacing: 0.5px; margin-bottom: 30px;">{{tempComment}}</p>
+					<p style="font-size: 13px; letter-spacing: 0.5px; margin-bottom: 30px;">{{spc.tempComment.comment}}</p>
 				</div>
-			<!-- </blockquote> -->
-		</div>
+			</blockquote>
+		</div-->
 
 
 		<!-- Comments Section -->
 		<div class="write-comment" ng-show="spc.authenticated">
+			<form name="comment-form" ng-submit="spc.submitComment()" role="form" novalidate>
+			<div class="col-sm-1">
+				<img src="{{spc.user.userInfo.avatarImgSrc}}" class="img-circle" height="40" width="40" alt="Avatar">
+				<h6><a href="#">{{spc.user.userInfo.name}}</a></h6>
+			</div>
+			<div class="col-sm-11">	
 			<blockquote>
-			<textarea class="form-control" rows="3" placeholder="Leave a Comment..." ng-model="tempComment" style="border-radius: 10px; width:400px; height: 50px;"></textarea>
-			<button type="submit" class="btn btn-success" style="border-radius: 50px; width: auto;margin-top: 10px; margin-bottom: 5px;">Submit</button>
+			<textarea class="form-control" placeholder="Leave a Comment..." ng-model="spc.tempComment.comment" style="border-radius: 5px; width:400px; height: 50px;" required ></textarea>
+			<button type="submit" ng-disabled="form.$invalid" class="btn btn-primary" style="border-radius: 50px; width: auto;margin-top: 10px; margin-bottom: 5px;">Submit</button>
 			</blockquote>
+			</div>
+			</form>
 		</div>
 
 		<!-- Older Comments Section -->
@@ -57,14 +65,14 @@
 			<blockquote>
 				<h4><span class="label label-info">{{blog.post.blogComments.length}} Comments:</span></h4><br>
 				<ul class="list-unstyled" id="comments-list">
-					<li class="comments-listing" ng-repeat="blogComment in blog.post.blogComments">
+					<li class="comments-listing" ng-repeat="blogComment in blogComments">
 
-						<div class="col-sm-1">
+						<div class="col-sm-1" style="padding-bottom: 15px;">
 							<img src="{{blogComment.avatarImgSrc}}" class="img-circle" height="30" width="30" alt="Avatar">
 						</div>
-						<div class="col-sm-11">
+						<div class="col-sm-11" style="padding-bottom: 15px;">
 
-							<h5 style="padding-left: -10px;"><small><a href="#">{{blogComment.commentAuthor}}</a>, On {{blogComment.commentedOn}}</small></h5>
+							<h5 style="padding-left: -10px;"><small><a href="#">{{blogComment.commentAuthor}}</a>, On {{blogComment.commentedOn | date:"MMM d, y h:mm:ss a"}}</small></h5>
 							<p style="font-size: 13px; letter-spacing: 1px;">{{blogComment.comment}}</p>
 							
 

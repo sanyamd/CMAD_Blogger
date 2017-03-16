@@ -25,10 +25,10 @@ public class BlogController {
 	@Consumes({ "application/json" })
 	@Path("/registerUser")
 	public Response createUserInfo(String userInfoJson) {
-		System.out.println("BlogController.createUserInfo() : userInfoJson"+userInfoJson);
+//		System.out.println("BlogController.createUserInfo() : userInfoJson"+userInfoJson);
 		Blog blog = new SimpleBlog();
 		String email = blog.addUser(userInfoJson);
-		System.out.println("BlogController.createUserInfo() : email : " + email);
+//		System.out.println("BlogController.createUserInfo() : email : " + email);
 		if (email == null) {
 			return Response.serverError().entity("Account already exists").build();
 		}
@@ -40,7 +40,7 @@ public class BlogController {
 	@Path("/userInfo/{email}")
 	public Response getUserInfo(@PathParam("email") String email) {
 		Blog blog = new SimpleBlog();
-		System.out.println("BlogController.getUserInfo()"+email);
+//		System.out.println("BlogController.getUserInfo()"+email);
 		String userInfoJson = blog.getUserInfo(email);
 		if (userInfoJson == null) {
 			return Response.serverError().entity("Nothing found").build();
@@ -54,7 +54,7 @@ public class BlogController {
 	public Response getPosts() {
 		Blog blog = new SimpleBlog();
 		List posts = blog.getPosts();
-		System.out.println("BlogController.getPosts() : post size : "+posts.size());
+//		System.out.println("BlogController.getPosts() : post size : "+posts.size());
 		if (posts == null) {
 			return Response.serverError().entity("Nothing found").build();
 		}
@@ -77,9 +77,9 @@ public class BlogController {
 	@Path("/search")
 	public Response getPosts(@QueryParam("searchString") String searchString) {
 		Blog blog = new SimpleBlog();
-		System.out.println("BlogController.getPosts() : searchString : "+searchString);
+//		System.out.println("BlogController.getPosts() : searchString : "+searchString);
 		List posts = blog.getPosts(searchString);
-		System.out.println("BlogController.getPosts(searchString) : post size : "+posts.size());
+//		System.out.println("BlogController.getPosts(searchString) : post size : "+posts.size());
 		if (posts == null) {
 			return Response.serverError().entity("Nothing found").build();
 		}
@@ -106,9 +106,9 @@ public class BlogController {
 	@Path("/updateUserInfo")
 	public Response updateUserInfo(String userInfoJson) {
 		Blog blog = new SimpleBlog();
-		System.out.println("BlogController.updateUserInfo() : userInfoJson : "+userInfoJson);
+//		System.out.println("BlogController.updateUserInfo() : userInfoJson : "+userInfoJson);
 		String username = blog.updateUser(userInfoJson);
-		System.out.println("BlogController.updateUserInfo() : username : "+username);
+//		System.out.println("BlogController.updateUserInfo() : username : "+username);
 		if (username == null) {
 			return Response.serverError().entity("Account updation failed").build();
 		}
@@ -121,7 +121,7 @@ public class BlogController {
 	public Response addPost(String postJson) {
 		Blog blog = new SimpleBlog();
 		String writtenToDbJson = blog.addPost(postJson);
-		System.out.println("BlogController.addPost() : writtenToDbJson : " + writtenToDbJson);
+//		System.out.println("BlogController.addPost() : writtenToDbJson : " + writtenToDbJson);
 		if (writtenToDbJson == null) {
 			return Response.serverError().entity("No such user").build();
 		}
@@ -134,7 +134,7 @@ public class BlogController {
 	public Response addComment(String commentJson, @QueryParam("blogID") String blogId) {
 		Blog blog = new SimpleBlog();
 		String writtenToDbJson = blog.addComment(commentJson, Integer.parseInt(blogId));
-		System.out.println("BlogController.addComment() : writtenToDbJson : " + writtenToDbJson);
+//		System.out.println("BlogController.addComment() : writtenToDbJson : " + writtenToDbJson);
 		if (writtenToDbJson == null) {
 			return Response.serverError().entity("No such user").build();
 		}
@@ -145,10 +145,10 @@ public class BlogController {
 	@Consumes({ "application/json" })
 	@Path("/signIn")
 	public Response signIn(String authDataJson) {
-		System.out.println("BlogController.signIn() : authDataJson : "+authDataJson);
+//		System.out.println("BlogController.signIn() : authDataJson : "+authDataJson);
 		Blog blog = new SimpleBlog();
 		String emailMatchFound = blog.signIn(authDataJson);
-		System.out.println("BlogController.signIn() : result : " + emailMatchFound);
+//		System.out.println("BlogController.signIn() : result : " + emailMatchFound);
 		if (emailMatchFound == null) {
 			return Response.serverError().entity("No such user").build();
 		}
