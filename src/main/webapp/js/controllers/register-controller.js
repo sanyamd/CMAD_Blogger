@@ -8,6 +8,7 @@
         rc.register = register;
 
         function register(isValid) {
+            console.log("isValid : "+isValid);
             if (isValid) {
                 rc.dataLoading = true;
                 console.log("going to call : UserService");
