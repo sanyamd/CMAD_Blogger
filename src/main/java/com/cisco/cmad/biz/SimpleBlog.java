@@ -31,7 +31,7 @@ public class SimpleBlog implements Blog {
 	MongoCollection<Document> users;
 
 	public SimpleBlog() {
-		MongoClient mongo = new MongoClient(new MongoClientURI("mongodb://localhost:27017"));
+		MongoClient mongo = new MongoClient(new MongoClientURI("mongodb://130.211.115.181:27017"));
 		db = mongo.getDatabase("CMAD_Blogger");
 	}
 
