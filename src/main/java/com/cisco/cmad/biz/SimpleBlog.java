@@ -14,15 +14,11 @@ import com.cisco.cmad.api.BlogException;
 import com.cisco.cmad.api.PostNotFoundException;
 import com.mongodb.MongoClient;
 import com.mongodb.MongoClientURI;
-import com.mongodb.bulk.UpdateRequest;
 import com.mongodb.client.FindIterable;
 import com.mongodb.client.MongoCollection;
 import com.mongodb.client.MongoCursor;
 import com.mongodb.client.MongoDatabase;
 import com.mongodb.client.model.Filters;
-import com.mongodb.client.model.IndexModel;
-import com.mongodb.client.model.Indexes;
-import com.mongodb.client.result.UpdateResult;
 
 public class SimpleBlog implements Blog {
 
@@ -31,7 +27,11 @@ public class SimpleBlog implements Blog {
 	MongoCollection<Document> users;
 
 	public SimpleBlog() {
-		MongoClient mongo = new MongoClient(new MongoClientURI("mongodb://130.211.115.181:27017"));
+		MongoClient mongo = new MongoClient(new MongoClientURI("mongodb://localhost:27017"));
+		db = mongo.getDatabase("CMAD_Blogger");
+	}
+	
+	public SimpleBlog(MongoClient mongo) {
 		db = mongo.getDatabase("CMAD_Blogger");
 	}
 
@@ -85,7 +85,6 @@ public class SimpleBlog implements Blog {
 			writtenToDb = false;
 		}
 		result.put("writtenToDb", writtenToDb);
-
 		return result.toJson();
 	}
 
@@ -145,9 +144,6 @@ public class SimpleBlog implements Blog {
 	@Override
 	public String addComment(String commentJson, int blogId) throws BlogException {
 		Document comment = Document.parse(commentJson);
-
-//		System.out.println("blogId" +blogId);
-
 		boolean writtenToDb = false, postFound = false;
 		Document result = new Document();
 		result.put("blogID", blogId);
@@ -198,17 +194,14 @@ public class SimpleBlog implements Blog {
 		List<String> list = new ArrayList<String>();
 		blogs.dropIndexes();
 		blogs.createIndex(new Document("$**", "text"));
-//		blogs.createIndex(new Document("blogTitle", "text").append("blogContent", "text").append("blogAuthor", "text")
-//				.append("blogTags", "text").append("blogComments", "text"));
+
 		FindIterable<Document> findIterable = blogs.find(Filters.text(searchString));
 //		System.out.println("SimpleBlog.getPosts() : findIterable : "+findIterable);
 		for (Document doc : findIterable){
 //			System.out.println("SimpleBlog.getPosts() : doc : "+doc);
 			list.add(doc.toJson());
 		}
-		 
 //		System.out.println(list);
-
 		return list;
 	}
 
@@ -252,8 +245,8 @@ public class SimpleBlog implements Blog {
 	}
 
 	@Override
-	public String signIn(String authDataJson) {
-		Document userData = Document.parse(authDataJson);
+	public String signIn(String loginDataJson) {
+		Document userData = Document.parse(loginDataJson);
 		String email = (String) userData.get("email");
 
 		Document result = new Document();
