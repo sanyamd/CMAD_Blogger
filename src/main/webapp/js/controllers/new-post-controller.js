@@ -48,7 +48,7 @@
                 // To change this current user
                 npc.blog.blogAuthor = {"name" : npc.user.userInfo.name,"email" : npc.user.email,"avatarImgSrc" : npc.user.userInfo.avatarImgSrc};
                 npc.blog.blogPostedOn = new Date();
-                npc.blog.blogThumbnailLoc = "";
+                npc.blog.blogThumbnailLoc = "./img/longform-banner.jpg";
                 npc.blog.blogComments = [];
 
                 BlogService.createPost(npc.blog).then(function (response) {
