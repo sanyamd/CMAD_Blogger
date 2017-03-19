@@ -27,10 +27,10 @@ public class SimpleBlog implements Blog {
 	MongoCollection<Document> users;
 
 	public SimpleBlog() {
-		MongoClient mongo = new MongoClient(new MongoClientURI("mongodb://130.211.115.181:27017"));
+		MongoClient mongo = new MongoClient(new MongoClientURI("mongodb://localhost:27017"));
 		db = mongo.getDatabase("CMAD_Blogger");
 	}
-	
+
 	public SimpleBlog(MongoClient mongo) {
 		db = mongo.getDatabase("CMAD_Blogger");
 	}
@@ -38,7 +38,7 @@ public class SimpleBlog implements Blog {
 	@Override
 	public String addUser(String userDetailsJson) throws BlogException {
 		Document userData = Document.parse(userDetailsJson);
-		userData.put("avatarImgSrc", "./img/img_avatar"+randomInt(1, 6)+".png");
+		userData.put("avatarImgSrc", "./img/img_avatar" + randomInt(1, 6) + ".png");
 		String email = (String) userData.get("email");
 		boolean writtenToDb = false;
 
@@ -57,11 +57,11 @@ public class SimpleBlog implements Blog {
 		result.put("writtenToDb", writtenToDb);
 		return result.toJson();
 	}
-	
+
 	private static int randomInt(int min, int max) {
-	    Random rand = new Random();
-	    int randomNum = rand.nextInt((max - min) + 1) + min;
-	    return randomNum;
+		Random rand = new Random();
+		int randomNum = rand.nextInt((max - min) + 1) + min;
+		return randomNum;
 	}
 
 	@Override
@@ -77,20 +77,37 @@ public class SimpleBlog implements Blog {
 
 		users = db.getCollection("users");
 		Bson bson = eq("email", email);
-//		System.out.println("SimpleBlog.updateUser() : "+bson);
+		// System.out.println("SimpleBlog.updateUser() : "+bson);
 		try {
 			users.updateOne(bson, update);
+			updateBlogs(userData);
 			writtenToDb = true;
 		} catch (Exception e) {
+			System.out.println("SimpleBlog.updateUser()");
 			writtenToDb = false;
 		}
 		result.put("writtenToDb", writtenToDb);
 		return result.toJson();
 	}
 
+	private void updateBlogs(Document userData) {
+		String username = userData.getString("name");
+		String email = userData.getString("email");
+		Document update1 = new Document();
+		update1.put("blogAuthor.name", username);
+//		System.out.println("SimpleBlog.updateBlogs()" + update1);
+		Document update = new Document("$set", update1);
+//		System.out.println("SimpleBlog.updateBlogs() : username : " + username);
+
+		blogs = db.getCollection("blogs");
+
+		Bson bson = eq("blogAuthor.email", email);
+		blogs.updateMany(bson, update);
+	}
+
 	@Override
 	public String getUserInfo(String emailId) throws BlogException {
-//		System.out.println("SimpleBlog.getUserInfo()"+emailId);
+		// System.out.println("SimpleBlog.getUserInfo()"+emailId);
 		Document result = new Document();
 		result.put("email", emailId);
 		result.put("matchFound", false);
@@ -121,7 +138,7 @@ public class SimpleBlog implements Blog {
 	@Override
 	public String addPost(String postJson) throws BlogException {
 		Document post = Document.parse(postJson);
-		String blogID = ""+ post.get("blogID");
+		String blogID = "" + post.get("blogID");
 		post.put("blogID", blogID);
 		boolean writtenToDb = false;
 
@@ -174,7 +191,7 @@ public class SimpleBlog implements Blog {
 		List<String> list = new ArrayList<String>();
 
 		FindIterable<Document> findIterable = blogs.find();
-		for (Document doc : findIterable){
+		for (Document doc : findIterable) {
 			doc.remove("_id");
 			list.add(doc.toJson());
 		}
@@ -184,7 +201,7 @@ public class SimpleBlog implements Blog {
 	@Override
 	public int getPostsCount() throws BlogException {
 		blogs = db.getCollection("blogs");
-		int count = (int)blogs.count();
+		int count = (int) blogs.count();
 		return count;
 	}
 
@@ -196,12 +213,13 @@ public class SimpleBlog implements Blog {
 		blogs.createIndex(new Document("$**", "text"));
 
 		FindIterable<Document> findIterable = blogs.find(Filters.text(searchString));
-//		System.out.println("SimpleBlog.getPosts() : findIterable : "+findIterable);
-		for (Document doc : findIterable){
-//			System.out.println("SimpleBlog.getPosts() : doc : "+doc);
+		// System.out.println("SimpleBlog.getPosts() : findIterable :
+		// "+findIterable);
+		for (Document doc : findIterable) {
+			// System.out.println("SimpleBlog.getPosts() : doc : "+doc);
 			list.add(doc.toJson());
 		}
-//		System.out.println(list);
+		// System.out.println(list);
 		return list;
 	}
 
@@ -216,21 +234,21 @@ public class SimpleBlog implements Blog {
 		blogs = db.getCollection("blogs");
 		postFound = findPost(postId, postFound, result);
 		result.put("postFound", postFound);
-		System.out.println("SimpleBlog.getPost() : result.toJson() : "+result.toJson());
+		System.out.println("SimpleBlog.getPost() : result.toJson() : " + result.toJson());
 		return result.toJson();
 	}
 
 	private boolean findPost(int postId, boolean postFound, Document result) {
 		try {
 			FindIterable<Document> find = blogs.find(eq("blogID", String.valueOf(postId)));
-			System.out.println("SimpleBlog.findPost() : find : "+find.iterator());
+			System.out.println("SimpleBlog.findPost() : find : " + find.iterator());
 			if (find != null && find.iterator() != null) {
 				MongoCursor<Document> cursor = find.iterator();
-				System.out.println("SimpleBlog.findPost() : cursor : "+cursor.hasNext());
-				
+				System.out.println("SimpleBlog.findPost() : cursor : " + cursor.hasNext());
+
 				if (cursor != null && cursor.hasNext()) {
 					Document doc = cursor.next();
-					System.out.println("SimpleBlog.findPost() : doc : "+doc);
+					System.out.println("SimpleBlog.findPost() : doc : " + doc);
 					if (doc != null) {
 						postFound = true;
 						doc.remove("_id");
@@ -278,20 +296,28 @@ public class SimpleBlog implements Blog {
 		return result.toJson();
 	}
 
-	public static void main(String... args) {
-//		System.out.println(randInt(1, 6));;
-//		 System.out.println(new SimpleBlog().getPosts("after"));
-//		new SimpleBlog().getPosts("technology");
-//		new SimpleBlog().getPost(1);
-		/*Document comment = new Document();
-		comment.put("commentId", "1");
-		comment.put("comment", "Wow gr8");
-		comment.put("commentAuthor", "kapil");
-		comment.put("avatarImgSrc", "./img/avatar6.png");
-		comment.put("commentedOn", "10 Mar, 2017");
+/*	public static void main(String... args) {
+		// System.out.println(randInt(1, 6));;
+		// System.out.println(new SimpleBlog().getPosts("after"));
+		// new SimpleBlog().getPosts("technology");
+		// new SimpleBlog().getPost(1);
 
-		System.out.println(new SimpleBlog().addComment(comment.toJson(), 2));*/
-		System.out.println(new SimpleBlog().getPost(11));
-	}
+		Document user = new Document();
+		user.put("name", "sandy");
+		user.put("email", "sandy@gmail.com");
+		user.put("password", "password1");
+		user.put("areaOfInterest", "Sports");
+		user.put("avatarImgSrc", "./img/img_avatar2.png");
+
+		
+		 * Document comment = new Document(); comment.put("commentId", "1");
+		 * comment.put("comment", "Wow gr8"); comment.put("commentAuthor",
+		 * "kapil"); comment.put("avatarImgSrc", "./img/avatar6.png");
+		 * comment.put("commentedOn", "10 Mar, 2017");
+		 * 
+		 * System.out.println(new SimpleBlog().addComment(comment.toJson(), 2));
+		 
+		System.out.println(new SimpleBlog().updateUser(user.toJson()));
+	}*/
 
 }

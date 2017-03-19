@@ -13,6 +13,9 @@ import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.Response;
 
 import com.cisco.cmad.api.Blog;
+import com.cisco.cmad.api.BlogException;
+import com.cisco.cmad.api.InvalidDataException;
+import com.cisco.cmad.api.PostNotFoundException;
 import com.cisco.cmad.biz.SimpleBlog;
 
 @Path("/blog")
@@ -89,13 +92,13 @@ public class BlogController {
 	@GET
 	@Produces({ "application/json" })
 	@Path("/post/{postId}")
-	public Response getPost(@PathParam("postId") String postId) {
+	public Response getPost(@PathParam("postId") String postId) throws PostNotFoundException, BlogException {
 		Blog blog = new SimpleBlog();
 		System.out.println("BlogController.getPost() : postId : "+postId);
 		String postJson = blog.getPost(Integer.parseInt(postId));
 		System.out.println("BlogController.getPost() : postJson : "+postJson);
 		if (postJson == null) {
-			return Response.serverError().entity("Nothing found").build();
+			throw new PostNotFoundException("Invalid UserName and password!!");
 		}
 		return Response.ok().entity(postJson).build();
 	}
@@ -144,13 +147,13 @@ public class BlogController {
 	@POST
 	@Consumes({ "application/json" })
 	@Path("/signIn")
-	public Response signIn(String authDataJson) {
+	public Response signIn(String authDataJson) throws InvalidDataException {
 //		System.out.println("BlogController.signIn() : authDataJson : "+authDataJson);
 		Blog blog = new SimpleBlog();
 		String emailMatchFound = blog.signIn(authDataJson);
 //		System.out.println("BlogController.signIn() : result : " + emailMatchFound);
 		if (emailMatchFound == null) {
-			return Response.serverError().entity("No such user").build();
+			throw new InvalidDataException("Invalid UserName and password!!");
 		}
 		return Response.ok().entity(emailMatchFound).build();
 	}
