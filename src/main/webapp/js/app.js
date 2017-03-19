@@ -63,14 +63,7 @@
 			controllerAs : 'upc'
 		})
 		.otherwise ({
-			redirectTo : "./partials/main.html",
-			controller : 'MainPageController',
-			controllerAs : 'mpc',
-			resolve: {
-                    blogsList : ['$route', 'BlogService', function ($route, BlogService) {
-                        return BlogService.GetAllPosts();
-                    }]
-                }
+			redirectTo : "/"
 		});
 	});
 

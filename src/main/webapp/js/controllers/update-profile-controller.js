@@ -2,7 +2,7 @@
     'use strict';
     angular
     .module('cmadBlog')
-    .controller('UpdateProfileController', ['UserService',  '$location' , '$window', function (UserService, $location, $window) {
+    .controller('UpdateProfileController', ['UserService',  '$location' , '$window', '$timeout', function (UserService, $location, $window, $timeout) {
         var upc = this;
         var tempUser = $window.localStorage.getItem("currentUser");
         tempUser = JSON.parse(tempUser);
@@ -29,12 +29,21 @@
                 console.log(response);
                 console.log('got the response : response.writtenToDb : '+response.writtenToDb);
                 if (response.writtenToDb) {
+                    setCredentials();
                     $location.path('/');
+                    $timeout(function() {$window.location.reload();}, 100);
                     console.log('path set');
                 } else {
                     upc.dataLoading = false;
                 }
             });
+        }
+
+        function setCredentials() {
+            console.log("tempUser.userInfo.name : "+tempUser.userInfo.name);
+            console.log("upc.user.name : "+upc.user.name);
+            tempUser.userInfo.name = upc.user.name;
+            $window.localStorage.setItem("currentUser", JSON.stringify(tempUser));
         }
     }]);
     

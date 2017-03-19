@@ -6,46 +6,32 @@
         var spc = this;
         spc.submitComment = submitComment;
         spc.tempComment = {};
-        // console.log('blogsList : ' + blogsList);
-        // console.log('singleBlog : ' + singleBlog);
 
         var tempbloglist = blogsList;
         $scope.blogs = [];
         $scope.blog = singleBlog;
-        // spc.tempComment = {};
         console.log('$scope.blog : ' + $scope.blog);
         console.log('$scope.blog.post.blogTitle : ' + $scope.blog.post.blogTitle);
         
         spc.authenticated = $window.localStorage.getItem("authenticated");
         spc.user = $window.localStorage.getItem("currentUser");
 
-        // console.log("spc.user before : " + spc.user);
-
         spc.user = JSON.parse(spc.user);
 
         var i = 0;
         for (;i<tempbloglist.length; i++) {
             $scope.blogs[i] = JSON.parse(tempbloglist[i]);
-            // console.log('$scope.blogs [i] ID: ' + $scope.blogs[i].blogID);
         }
         $scope.blogComments = [];
         if ($scope.blog.post.blogComments) {
             console.log("blog.blogComments : " + $scope.blog.post.blogComments);
             console.log("$scope.blog.post.blogComments.length : " +$scope.blog.post.blogComments.length);
-            // for (;i<$scope.blog.post.blogComments.length; i++) {
-                // console.log("blog.blogComments[i] : " +$scope.blog.post.blogComments[i]);
-                $scope.blogComments = $scope.blog.post.blogComments;
-            // console.log('$scope.blogs [i] ID: ' + $scope.blogs[i].blogID);
-            // }
+            $scope.blogComments = $scope.blog.post.blogComments;
             console.log("$scope.blogComments : " + JSON.stringify($scope.blogComments));
         }
-        // console.log('$scope.blogs [0] ID: ' + $scope.blogs[0].blogID);
-        // console.log('$scope.blogs :  ' + $scope.blogs);
-        // console.log('$scope.blog :  ' + $scope.blog);
 
 
         function submitComment () {
-            // {"commentId": commentId, "comment" : comment, "commentAuthor" : author, "avatarImgSrc" : avatarImgSrc, "commentedOn" : Date.now()}
             console.log("scope.blog.post.blogComments.length : " +$scope.blog.post.blogComments.length);
             spc.tempComment.commentId = $scope.blog.post.blogComments.length + 1;
             console.log("scope.tempComment.commentId : "+ spc.tempComment.commentId);
@@ -65,7 +51,6 @@
                 console.log("response : "+response);
                 if (response.writtenToDb) {
                     console.log("response after: "+response);
-                    // $scope.blog = response.post;
                     console.log("No need of refresh");
                     $scope.blogComments.push(spc.tempComment);
                     spc.tempComment=[];

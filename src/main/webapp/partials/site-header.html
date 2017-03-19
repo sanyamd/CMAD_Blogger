@@ -18,12 +18,11 @@
           <span class="glyphicon glyphicon-home"></span> HOME</a></li>
           
           <li class="dropdown" id="blog-type-list">
-            <a class="dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" href="javascript:void(0)">
-            <span class="glyphicon glyphicon-pencil"></span> BLOGS
+            <a class="dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" href="javascript:void(0)">BLOGS
               <span class="caret"></span>
             </a>
             <ul class="dropdown-menu" id="blog_types" role="menu">
-              <li><a href="#/searchResults/fitness">SPORTS</a></li>
+              <li><a href="#/searchResults/sports">SPORTS</a></li>
               <li><a href="#/searchResults/entertainment">ENTERTAINMENT</a></li>
               <li><a href="#/searchResults/technology">TECHNOLOGY</a></li> 
             </ul>
@@ -41,17 +40,17 @@
           </li>
 
           <li ng-show="nc.authenticated">
-            <a href="#newPost">CREATE POST</a>
+            <a href="#newPost"><span class="glyphicon glyphicon-pencil"></span> CREATE POST</a>
           </li>
 
           <li class="dropdown" id="user-info-list" ng-show="nc.authenticated">
             <a class="dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" href="javascript:void(0)">
-            <span class="glyphicon glyphicon-user"></span> Hi {{nc.user.userInfo.name}}
+              <span class="glyphicon glyphicon-user"></span> Hi {{nc.user.userInfo.name}}
               <span class="caret"></span>
             </a>
             <ul class="dropdown-menu" id="blog_types" role="menu">
               <li><a href="#updateProfile">UPDATE PROFILE</a></li>
-              <li><a ng-click="nc.logout()">LOGOUT</a></li> 
+              <li><a ng-click="nc.logout()" href="javascript:void(0)">LOGOUT</a></li> 
             </ul>
           </li>
   
